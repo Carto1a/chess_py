@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from Pawn import Pawn
+from modules.Pawn import Pawn
 
 class Pieces:
 	selected = False

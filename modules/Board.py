@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
-from Square import Square
-from Pieces import Pieces
+from modules.Square import Square
+from modules.Pieces import Pieces
 
 class Board:
 	# pieces = [['br','bn','bb','bq','bk','bb','bn','br'],

@@ -4,9 +4,7 @@ import math
 import cairo
 import pygame
 from pygame.locals import *
-from Board import Board
-from Square import Square
-from Pieces import Pieces
+from modules.Board import Board
 
 pygame.init()
 
