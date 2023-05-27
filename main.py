@@ -1,8 +1,10 @@
+import os
 import pygame
 import array
 import math
 import cairo
 import pygame
+import numpy
 from pygame.locals import *
 from modules.Board import Board
 
@@ -18,19 +20,29 @@ line_size_x = 25
 selected = False
 screen_size_previus = (0,0)
 mouse_button_down = 0
+theme_dir = ''
+currenct_theme = '0'
 
-lista_img.append(pygame.image.load("./assets/pieces/b_bishop.png"))  # 0
-lista_img.append(pygame.image.load("./assets/pieces/b_king.png"))    # 1
-lista_img.append(pygame.image.load("./assets/pieces/b_knight.png"))  # 2
-lista_img.append(pygame.image.load("./assets/pieces/b_pawn.png"))    # 3
-lista_img.append(pygame.image.load("./assets/pieces/b_queen.png"))   # 4
-lista_img.append(pygame.image.load("./assets/pieces/b_rook.png"))    # 5
-lista_img.append(pygame.image.load("./assets/pieces/w_bishop.png"))  # 6
-lista_img.append(pygame.image.load("./assets/pieces/w_king.png"))    # 7
-lista_img.append(pygame.image.load("./assets/pieces/w_knight.png"))  # 8
-lista_img.append(pygame.image.load("./assets/pieces/w_pawn.png"))    # 9
-lista_img.append(pygame.image.load("./assets/pieces/w_queen.png"))   # 10
-lista_img.append(pygame.image.load("./assets/pieces/w_rook.png"))    # 11
+if currenct_theme in os.listdir('assets/pieces'):
+	for item in numpy.sort(os.listdir(f'assets/pieces/{currenct_theme}')):
+		print(item)
+		lista_img.append(pygame.image.load(f"assets/pieces/{currenct_theme}/{item}"))
+	
+else:
+	print("esse tema não exite")
+
+# b_bishop   0
+# b_king     1
+# b_knight   2 
+# b_pawn     3
+# b_queen    4
+# b_rook     5
+# w_bishop   6
+# w_king     7
+# w_knight   8
+# w_pawn     9
+# w_queen    10
+# w_rook     11
 
 screen  = pygame.display.set_mode((640, 360), HWSURFACE|DOUBLEBUF|RESIZABLE)
 clock   = pygame.time.Clock()
