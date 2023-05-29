@@ -25,7 +25,6 @@ currenct_theme = '0'
 
 if currenct_theme in os.listdir('assets/pieces'):
 	for item in numpy.sort(os.listdir(f'assets/pieces/{currenct_theme}')):
-		print(item)
 		lista_img.append(pygame.image.load(f"assets/pieces/{currenct_theme}/{item}"))
 	
 else:

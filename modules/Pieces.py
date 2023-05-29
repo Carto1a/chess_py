@@ -34,6 +34,14 @@ class Pieces:
 
 	def move(self, pos, board):
 		dead_piece = board.pieces_pos[pos[0]][pos[1]]
+		if dead_piece == self:
+			return
+		
+		# check if is check
+		# check if is a mate
+		# check if is a legal move
+		# check if is Castling
+
 		for i, item in enumerate(board.pieces):
 			if item == dead_piece:
 				board.pieces_pos[pos[0]][pos[1]] = ''

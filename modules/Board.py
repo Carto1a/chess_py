@@ -24,7 +24,6 @@ class Board:
 	pieces = []
 	squares = []
 	board_size = 0
-	color_cliked = 0
 	square_size = 0
 	rect = 0
 	board_center = 0
@@ -32,6 +31,7 @@ class Board:
 	board_size_pervius = 0
 	clicked = False
 	selected_piece = 0
+	square_previus = 0
 	selected = False
 	lista_img_scale = []
 
@@ -40,16 +40,23 @@ class Board:
 		self.rect = pygame.Rect(self.board_size, self.board_size, self.board_size, self.board_size)
 
 	def init_squares(self, color_cliked):
-		self.color_cliked = color_cliked
+		colors = [Color(93,50,49), Color(121,72,57)]
+		move = Color(158, 32, 16)
+		take = Color(232, 225, 9)
+		selected = Color(6, 68, 184)
+		color_set = True
 
 		y = 0
 		while y < 8:
 			x = 0
 			lista = []
 			while x < 8:
-				lista.append(Square(self.square_size, Color(44, 59, 120, 10), y, x))
+				color = (colors[0], colors[1])[color_set]
+				lista.append(Square(self.screen, self.square_size, y, x, (color, take, move, selected)))
+				color_set = not color_set
 				x += 1
 			self.squares.append(lista)
+			color_set = not color_set
 			y += 1
 
 	def init_pieces(self):
@@ -80,19 +87,12 @@ class Board:
 			y += 1
 
 	def draw_squares(self):
-
-		colors = [Color(93,50,49), Color(121,72,57)]
-		color_set = True
-
 		y = 0
 		while y < 8:
 			x = 0
 			while x < 8:
-				color = (colors[0], colors[1])[color_set]
-				self.squares[y][x].draw(self.screen, color)
-				color_set = not color_set
+				self.squares[y][x].draw()
 				x += 1
-			color_set = not color_set
 			y += 1
 
 	def draw_pieces(self, reload_images=None):
@@ -124,14 +124,25 @@ class Board:
 	# 
 	def check_pos(self):
 		point = pygame.mouse.get_pos()
+
 		if self.selected:
 			for y, sqr in enumerate(self.squares):
 				for x, item in enumerate(sqr):
-					selected = item.click(point)
-					if selected:
-						self.selected_piece.move(item.pos, self)
+					selected = item.is_collide(point)
+					if not selected:
+						continue
+					
+					self.square_previus.change_state("normal")
+
+					if self.pieces_pos[y][x] == self.selected_piece:
 						self.selected = False
+						self.selected_piece = 0
 						return
+					
+					self.selected_piece.move(item.pos, self)
+					self.selected_piece = 0
+					self.selected = False
+					return
 					
 			return
 
@@ -140,9 +151,12 @@ class Board:
 				if self.pieces_pos[y][x] == '':
 					continue
 				
-				self.selected = item.click(point)
+				self.selected = item.is_collide(point)
 				if self.selected:
+					self.square_previus = item
+					item.change_state("selected")
 					self.selected_piece = self.pieces_pos[y][x]
+					print(f"x = {self.selected_piece.x} | y = {self.selected_piece.y}")
 					return
 
 	def check_click(self, event):
@@ -154,3 +168,9 @@ class Board:
 		if not pygame.mouse.get_pressed()[0]:
 			self.clicked = False
 
+	def is_check():
+		pass
+	def is_mate():
+		pass
+	def is_possible_castling():
+		pass
