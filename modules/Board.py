@@ -34,6 +34,7 @@ class Board:
 	square_previus = 0
 	selected = False
 	lista_img_scale = []
+	moves = 0
 
 	def __init__(self, screen):
 		self.screen = screen
@@ -122,6 +123,12 @@ class Board:
 	# proibir o toque quanto ja tiver um selecionado
 	# verificar se o movimento é valido
 	# 
+	def clear_moves(self):
+		for square in self.moves:
+			for squarex in square:
+				self.squares[squarex[0]][squarex[1]].change_state("normal")
+		return
+
 	def check_pos(self):
 		point = pygame.mouse.get_pos()
 
@@ -132,18 +139,22 @@ class Board:
 					if not selected:
 						continue
 					
+					self.clear_moves()
 					self.square_previus.change_state("normal")
 
 					if self.pieces_pos[y][x] == self.selected_piece:
 						self.selected = False
 						self.selected_piece = 0
 						return
-					
-					self.selected_piece.move(item.pos, self)
+
+					if (y,x) in self.moves[0]:
+						self.selected_piece.move(item.pos, self, self.pieces_pos[item.pos[0]][item.pos[1]])
+					if (y,x) in self.moves[1]:
+						self.selected_piece.move(item.pos, self, self.pieces_pos[item.pos[0]][item.pos[1]])
+
 					self.selected_piece = 0
 					self.selected = False
-					return
-					
+					return		
 			return
 
 		for y, sqr in enumerate(self.squares):
@@ -157,7 +168,14 @@ class Board:
 					item.change_state("selected")
 					self.selected_piece = self.pieces_pos[y][x]
 					print(f"x = {self.selected_piece.x} | y = {self.selected_piece.y}")
+
+					self.moves = self.selected_piece.piece_obj.moves(self.pieces_pos, (self.selected_piece.y, self.selected_piece.x), self.selected_piece.onwer)
+					for square in self.moves[0]:
+						self.squares[square[0]][square[1]].change_state("move")
+					for square in self.moves[1]:
+						self.squares[square[0]][square[1]].change_state("take")
 					return
+					
 
 	def check_click(self, event):
 		click = pygame.mouse.get_pressed()[0]

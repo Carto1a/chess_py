@@ -32,19 +32,17 @@ class Pieces:
 	def update_pos(self, board, pos_cal):
 		self.piece_pos = (board.x + (pos_cal * self.x), board.y + (pos_cal * self.y))
 
-	def move(self, pos, board):
-		dead_piece = board.pieces_pos[pos[0]][pos[1]]
+	def move(self, pos, board , dead_piece):
+		# dead_piece = board.pieces_pos[pos[0]][pos[1]]
 		if dead_piece == self:
 			return
 		
-		# check if is check
-		# check if is a mate
 		# check if is a legal move
 		# check if is Castling
 
 		for i, item in enumerate(board.pieces):
 			if item == dead_piece:
-				board.pieces_pos[pos[0]][pos[1]] = ''
+				dead_piece = ''
 				board.pieces[i] = ''
 
 		board.pieces_pos[self.y][self.x] = ''
