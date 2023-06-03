@@ -1,7 +1,8 @@
 import pygame
 from pygame.locals import *
 from modules.Square import Square
-from modules.Pieces import Pieces
+# from modules.Pieces import Pieces
+from modules.Pawn import Pawn
 
 class Board:
 	# pieces = [['br','bn','bb','bq','bk','bb','bn','br'],
@@ -67,7 +68,7 @@ class Board:
 					continue
 				
 				if item[1] == "p":
-					self.pieces_pos[indexy][indexx] = Pieces(item[0], "pawn", indexy, indexx, self.screen)
+					self.pieces_pos[indexy][indexx] = Pawn(item[0], indexy, indexx, self.screen)
 
 				self.pieces.append(self.pieces_pos[indexy][indexx])
 
@@ -105,10 +106,10 @@ class Board:
 				if item == '':
 					continue
 				if item.onwer == "b":
-					if item.piece_type == "p":
+					if isinstance(item, Pawn):
 						item.update(pos_cal, self.rect, self.lista_img_scale[3])
 				else:
-					if item.piece_type == "p":
+					if isinstance(item, Pawn):
 						item.update(pos_cal, self.rect, self.lista_img_scale[9])
 				
 				item.draw()
@@ -125,8 +126,7 @@ class Board:
 	# 
 	def clear_moves(self):
 		for square in self.moves:
-			for squarex in square:
-				self.squares[squarex[0]][squarex[1]].change_state("normal")
+				self.squares[square[0]][square[1]].change_state("normal")
 		return
 
 	def check_pos(self):
@@ -147,10 +147,8 @@ class Board:
 						self.selected_piece = 0
 						return
 
-					if (y,x) in self.moves[0]:
-						self.selected_piece.move(item.pos, self, self.pieces_pos[item.pos[0]][item.pos[1]])
-					if (y,x) in self.moves[1]:
-						self.selected_piece.move(item.pos, self, self.pieces_pos[item.pos[0]][item.pos[1]])
+					if (y,x) in self.moves:
+						self.selected_piece.move(item.pos, self)
 
 					self.selected_piece = 0
 					self.selected = False
@@ -169,11 +167,14 @@ class Board:
 					self.selected_piece = self.pieces_pos[y][x]
 					print(f"x = {self.selected_piece.x} | y = {self.selected_piece.y}")
 
-					self.moves = self.selected_piece.piece_obj.moves(self.pieces_pos, (self.selected_piece.y, self.selected_piece.x), self.selected_piece.onwer)
+					self.moves = self.selected_piece.moves(self.pieces_pos, (self.selected_piece.y, self.selected_piece.x), self.selected_piece.onwer)
 					for square in self.moves[0]:
 						self.squares[square[0]][square[1]].change_state("move")
 					for square in self.moves[1]:
 						self.squares[square[0]][square[1]].change_state("take")
+
+					self.moves = self.moves[0] + self.moves[1]
+					print(self.moves)
 					return
 					
 
