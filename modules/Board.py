@@ -1,4 +1,5 @@
 import pygame
+import math
 from pygame.locals import *
 from modules.Square import Square
 # from modules.Pieces import Pieces
@@ -16,9 +17,9 @@ class Board:
 	pieces_pos = [['bp','bp','bp','bp','bp','bp','bp','bp'],
 								['bp','bp','bp','bp','bp','bp','bp','bp'],
 								['',   '', '',  '',  '',  '',  '',  ''  ],
+								['',   'wp', '',  '',  '',  '',  '',  ''  ],
 								['',   '', '',  '',  '',  '',  '',  ''  ],
-								['',   '', '',  '',  '',  '',  '',  ''  ],
-								['',   '', '',  '',  '',  '',  '',  ''  ],
+								['',   '', '',  'bp',  '',  '',  '',  ''  ],
 								['wp','wp','wp','wp','wp','wp','wp','wp'],
 								['wp','wp','wp','wp','wp','wp','wp','wp']
 				     	 ]
@@ -78,7 +79,7 @@ class Board:
 		self.rect.update(board_center[0], board_center[1], board_size, board_size)
 
 	def update_squares(self):
-		square_size = self.board_size / 8
+		square_size = round(self.board_size / 8)
 
 		y = 0
 		while y < 8:
@@ -98,7 +99,7 @@ class Board:
 			y += 1
 
 	def draw_pieces(self, reload_images=None):
-		pos_cal = (self.rect.width / 8)
+		pos_cal = round(self.rect.width / 8)
 		if self.board_size != self.board_size_pervius:
 			self.lista_img_scale = reload_images(self.board_size)
 			self.board_size_pervius = self.board_size

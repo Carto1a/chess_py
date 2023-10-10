@@ -1,3 +1,5 @@
 {
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "debug.terminal.clearBeforeReusing": true,
+    // "python.analysis.typeCheckingMode": "basic"
 }

@@ -4,12 +4,15 @@ from modules.Pieces import Pieces
 
 class Pawn(Pieces):
 	fist_move = True
-	en_passantble = False
+	en_passantble = True
+	can_en_passantble = False
 
 	def move(self, pos, board):
 		dead_piece = board.pieces_pos[pos[0]][pos[1]]
 		if dead_piece == self:
 			return
+
+		# nao to com c
 
 		for i, item in enumerate(board.pieces):
 			if item == dead_piece:
@@ -21,10 +24,9 @@ class Pawn(Pieces):
 		self.x = pos[1]
 		self.y = pos[0]
 
-		self.fist_move = True
+		self.fist_move = False
 
 		board.draw_pieces()
-
 
 	def moves(self, pieces_pos, pos, onwer):
 		moves = []
@@ -52,11 +54,13 @@ class Pawn(Pieces):
 		if x < 7:
 			l2 = pieces_pos[y][x+1]
 
-		if x < 6 and l2 != "" and isinstance(l2, Pawn) == True and l2.onwer != onwer and l1.en_passantble:
+		if x < 6 and l2 != "" and isinstance(l2, Pawn) == True and l2.onwer != onwer and l2.en_passantble:
 			takes.append((y+q, x+1))
+			can_en_passantble = True
 		if x > 1 and l1 != "" and isinstance(l1, Pawn) == True and l1.onwer != onwer and l1.en_passantble:
 			takes.append((y+q, x-1))
-		if x < 6 and pieces_pos[y][x+1] != "" and pieces_pos[y+q][x+1].onwer != onwer:
+			can_en_passantble = True
+		if x < 6 and pieces_pos[y+q][x+1] != "" and pieces_pos[y+q][x+1].onwer != onwer:
 			takes.append((y+q, x+1))
 		if x > 1 and pieces_pos[y+q][x-1] != "" and pieces_pos[y+q][x-1].onwer != onwer:
 			takes.append((y+q, x-1))
@@ -64,7 +68,6 @@ class Pawn(Pieces):
 		while y != b:
 			y += q
 			if y > 7 or y < 0:
-				print("passou")
 				return [moves, takes]
 
 			if pieces_pos[y][x] != '':
@@ -73,4 +76,3 @@ class Pawn(Pieces):
 			moves.append((y, x))
 
 		return [moves, takes]
-
