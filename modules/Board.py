@@ -37,6 +37,10 @@ class Board:
 	selected = False
 	lista_img_scale = []
 	moves = 0
+	turn: str = 'w'
+	op_turn: dict = ['w', 'b']
+	turn_counter: int = 0
+	turn_interator: int = 1
 
 	def __init__(self, screen):
 		self.screen = screen
@@ -79,13 +83,13 @@ class Board:
 		self.rect.update(board_center[0], board_center[1], board_size, board_size)
 
 	def update_squares(self):
-		square_size = round(self.board_size / 8)
+		self.square_size = round(self.board_size / 8)
 
 		y = 0
 		while y < 8:
 			x = 0
 			while x < 8:
-				self.squares[y][x].update(self.board_center, square_size)
+				self.squares[y][x].update(self.board_center, self.square_size)
 				x += 1
 			y += 1
 
@@ -122,62 +126,87 @@ class Board:
 				item.update(pos_cal, self.rect)
 				item.draw()
 
-	# proibir o toque quanto ja tiver um selecionado
 	# verificar se o movimento é valido
 	# 
+	def check_turn(self, piece):
+		onwer = piece.onwer
+		return ( False, True )[onwer == self.turn]
+
+	def next_turn(self):
+		if self.turn_counter == 0 and self.turn_interator == -1:
+			self.turn_interator *= -1
+		if len(self.op_turn) == self.turn_counter +1:
+			self.turn_interator *= -1
+		self.turn_counter += self.turn_interator
+		self.turn = self.op_turn[self.turn_counter]
+
 	def clear_moves(self):
 		for square in self.moves:
 				self.squares[square[0]][square[1]].change_state("normal")
 		return
 
-	def check_pos(self):
+	def get_square(self):
 		point = pygame.mouse.get_pos()
+		square_size = self.square_size
 
-		if self.selected:
-			for y, sqr in enumerate(self.squares):
-				for x, item in enumerate(sqr):
-					selected = item.is_collide(point)
-					if not selected:
-						continue
-					
-					self.clear_moves()
-					self.square_previus.change_state("normal")
+		# x - (x(n-1)/n) - 1 forma uga uga
+		point_normalized = (point[0] - self.rect.x, point[1] - self.rect.y)
 
-					if self.pieces_pos[y][x] == self.selected_piece:
-						self.selected = False
-						self.selected_piece = 0
-						return
-
-					if (y,x) in self.moves:
-						self.selected_piece.move(item.pos, self)
-
-					self.selected_piece = 0
-					self.selected = False
-					return		
+		if point_normalized[0] < 0 or point_normalized[1] < 0:
+			return	
+		if point_normalized[0] > self.rect.w or point_normalized[1] > self.rect.h:
 			return
 
-		for y, sqr in enumerate(self.squares):
-			for x, item in enumerate(sqr):
-				if self.pieces_pos[y][x] == '':
-					continue
-				
-				self.selected = item.is_collide(point)
-				if self.selected:
-					self.square_previus = item
-					item.change_state("selected")
-					self.selected_piece = self.pieces_pos[y][x]
-					print(f"x = {self.selected_piece.x} | y = {self.selected_piece.y}")
+		pos_index = (math.floor(point_normalized[0]/square_size), math.floor(point_normalized[1]/square_size))
 
-					self.moves = self.selected_piece.moves(self.pieces_pos, (self.selected_piece.y, self.selected_piece.x), self.selected_piece.onwer)
-					for square in self.moves[0]:
-						self.squares[square[0]][square[1]].change_state("move")
-					for square in self.moves[1]:
-						self.squares[square[0]][square[1]].change_state("take")
+		select_squere = self.squares[pos_index[1]][pos_index[0]]
 
-					self.moves = self.moves[0] + self.moves[1]
-					print(self.moves)
-					return
-					
+		return {'select': select_squere, 'x': pos_index[0], 'y': pos_index[1]}
+
+	def check_pos(self):
+		pos_square = self.get_square()
+		piece_pos = self.pieces_pos[pos_square['y']][pos_square['x']]
+
+		if self.selected:			
+			self.clear_moves()
+			self.square_previus.change_state("normal")
+
+			# reescrever essa parte?
+			if piece_pos == self.selected_piece:
+				self.selected = False
+				self.selected_piece = 0
+				return
+
+			if (pos_square['y'],pos_square['x']) in self.moves:
+				self.selected_piece.move(pos_square['select'].pos, self)
+				self.next_turn()
+
+			self.selected_piece = 0
+			self.selected = False
+			return		
+
+		if piece_pos == '':
+			return
+
+		# reescrever
+		if not self.check_turn(piece_pos):
+			return
+
+		self.selected = pos_square['select']
+		self.selected_piece = piece_pos
+		self.square_previus = pos_square['select']
+		self.selected.change_state("selected")
+		print(f"x = {self.selected_piece.x} | y = {self.selected_piece.y}")
+
+		self.moves = self.selected_piece.moves(self.pieces_pos, (self.selected_piece.y, self.selected_piece.x), self.selected_piece.onwer)
+		for square in self.moves[0]:
+			self.squares[square[0]][square[1]].change_state("move")
+		for square in self.moves[1]:
+			self.squares[square[0]][square[1]].change_state("take")
+
+		self.moves = self.moves[0] + self.moves[1]
+		print(self.moves)
+		return
 
 	def check_click(self, event):
 		click = pygame.mouse.get_pressed()[0]
