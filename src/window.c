@@ -1,3 +1,4 @@
+#include "./board.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_video.h>
@@ -5,9 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "./board.h"
-#include "./window.h"
+#include <time.h>
 
 const int SDL_FLAGS = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
 
@@ -25,6 +24,7 @@ static void Draw(Window *);
 static void Process_Events(Window *);
 static void Process_Window_Events(Window *this, SDL_WindowEvent event);
 static bool Is_Running(Window *);
+static SDL_Window *Get_Window(Window *);
 
 Window *Window_Construct() {
   SDL_Window *sdl_window = NULL;
@@ -60,6 +60,9 @@ Window *Window_Construct() {
   window->Is_Running = Is_Running;
   window->Process_Events = Process_Events;
 
+  window->zoom_level = 1.0;
+  window->Get_Window = Get_Window;
+
   window->_private = malloc(sizeof(Window_Private));
   window->_private->window = sdl_window;
   window->_private->surface = sdl_window_suface;
@@ -67,7 +70,7 @@ Window *Window_Construct() {
   window->_private->screen_size_previus_y = 0;
   window->_private->running = true;
 
-  window->_private->board = Board_Constructor();
+  window->_private->board = Board_Constructor(window);
 
   return window;
 }
@@ -98,6 +101,9 @@ void Draw(Window *this) {
 
 void Process_Events(Window *this) {
   SDL_Event event;
+  clock_t clock_time;
+  clock_time = clock();
+
   while (SDL_PollEvent(&event) != 0) {
     /*printf("Event: %x\n", event.type);*/
     switch (event.type) {
@@ -107,8 +113,21 @@ void Process_Events(Window *this) {
     case SDL_WINDOWEVENT:
       Process_Window_Events(this, event.window);
       break;
+    case SDL_MOUSEWHEEL:
+      this->zoom_level += event.wheel.y * 0.1;
+      printf("Mouse direction: %d\n", event.wheel.y);
+      break;
     }
+    this->_private->board->Update(this->_private->board, event);
   }
+
+  clock_time = clock() - clock_time;
+
+  double time_taken = (double)clock_time / CLOCKS_PER_SEC;
+
+  /* printf("Tempo em milissegundos para processar todos eventos do frame:
+   * %f\n", */
+  /*        time_taken * 1000); */
   return;
 }
 
@@ -122,3 +141,5 @@ void Process_Window_Events(Window *this, SDL_WindowEvent event) {
 }
 
 bool Is_Running(Window *this) { return this->_private->running; }
+
+SDL_Window *Get_Window(Window *this) { return this->_private->window; }
