@@ -4,11 +4,16 @@ set(PROJECT_NAME chess)
 
 project(${PROJECT_NAME})
 
-find_package(SDL2 REQUIRED)
-include_directories(${PROJECT_NAME} ${SDL2_INCLUDE_DIRS})
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    add_compile_options(/Wall)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-Wall)
+    set(CMAKE_CXX_FLAGS_DEBUG "-g")
+endif()
 
-# file(GLOB_RECURSE SOURCES "src/*.c" "src/util/*.c")
-# file(GLOB_RECURSE HEADERS "src/*.h" "src/util/*.h")
-add_executable(chess ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} "./src/main.c")
 
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+add_subdirectory("src/interface/terminal")
+add_subdirectory("src/chess_engine")
+
+target_link_libraries(${PROJECT_NAME} PUBLIC chess_terminal chess_engine)

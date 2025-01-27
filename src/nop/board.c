@@ -58,7 +58,7 @@ void Update(Board *this, SDL_Event event) {
 
     float mouse_dis_center = 0;
 
-    this->_private->rect.y = ;
+    /* this->_private->rect.y = ; */
     this->_private->rect.y = event.wheel.y;
     /* this->_private->rect.x += event.wheel.y; */
     /* this->_private->rect.x += (mouse_pos_normalize.x - rect_pos_normalize.x)

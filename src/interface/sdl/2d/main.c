@@ -1,8 +1,6 @@
-#include "interface.h"
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
-  printf("teste");
-  init_interface();
+  printf("teste 2d");
   return 0;
 }
