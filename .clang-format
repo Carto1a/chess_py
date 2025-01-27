@@ -1,6 +1,7 @@
 ---
+# TODO: aprender a configurar isso
 Language:        C
-# BasedOnStyle:  LLVM
+BasedOnStyle:  LLVM
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
 AlignArrayOfStructures: None
