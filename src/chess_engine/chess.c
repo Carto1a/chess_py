@@ -1,4 +1,5 @@
 #include "./chess.h"
+
 #include <stdio.h>
 
 int teste(void) {
