@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
-  printf("teste");
+  printf("teste2");
   init_interface();
   return 0;
 }
