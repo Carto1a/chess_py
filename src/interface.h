@@ -1,1 +1,1 @@
-int init_interface(void);
+int interface_initialize(void);
