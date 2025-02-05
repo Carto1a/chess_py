@@ -9,10 +9,14 @@ typedef struct ChessBoard {
   Piece *capturedPieces;
 } ChessBoard;
 
+ChessBoard *Chess_BoardInitialize();
+
 typedef struct ChessGame {
   ChessBoard initialState;
   ChessBoard state;
   void *moves;
 } ChessGame;
+
+ChessGame *Chess_GameInitialize();
 
 int teste(void);

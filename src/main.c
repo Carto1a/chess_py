@@ -1,3 +1,4 @@
+#include "chess_engine/chess.h"
 #include "interface.h"
 #include <stdio.h>
 
