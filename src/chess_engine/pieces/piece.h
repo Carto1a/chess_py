@@ -1,28 +1,36 @@
 #include "move.h"
 
-typedef enum PieceType { KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN } PieceType;
-typedef enum GameOwner { OWNER_BLACK, OWNER_WHITE } GameOwner;
+typedef enum chess_piece_type {
+  CHESS_PIECE_NONE,
+  CHESS_KING,
+  CHESS_QUEEN,
+  CHESS_ROOK,
+  CHESS_BISHOP,
+  CHESS_KNIGHT,
+  CHESS_PAWN
+} chess_piece_type;
+typedef enum chess_piece_owner { OWNER_BLACK, OWNER_WHITE } chess_piece_owner;
 
-typedef struct Piece {
-  PieceType type;
-  GameOwner owner;
+typedef struct chess_piece {
+  chess_piece_type type;
+  chess_piece_owner owner;
   int captured;
   int x;
   int y;
-} Piece;
+} chess_piece;
 
-typedef struct Pawn {
-  Piece piece;
-} Pawn;
+typedef struct chess_pawn {
+  chess_piece piece;
+} chess_pawn;
 
-Pawn Chess_InitPawn(int x, int y, GameOwner owner);
-Move Chess_GetMovesPawn(Pawn piece);
-int Chess_MovePawn(Piece piece, int x, int y);
+chess_pawn chess_pawn_initialize(int x, int y, chess_piece_owner owner);
+Move chess_pawn_get_moves(chess_pawn piece);
+int chess_pawn_move(chess_piece piece, int x, int y);
 
-typedef struct Bishop {
-  Piece piece;
-} Bishop;
+typedef struct chess_bishop {
+  chess_piece piece;
+} chess_bishop;
 
-Pawn Chess_InitBishop();
-Move Chess_GetMovesBishop();
-void Chess_MoveBishop();
+chess_pawn chess_bishop_initialize();
+Move chess_bishop_get_moves();
+void chess_bishop_move();

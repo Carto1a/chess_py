@@ -3,7 +3,6 @@
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
-  printf("teste2");
-  init_interface();
+  interface_initialize();
   return 0;
 }

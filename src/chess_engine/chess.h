@@ -4,19 +4,17 @@
 // altura do tabuleiro, se não for uma tabuleiro convencional, não sei oque eu
 // vou fazer
 
-typedef struct ChessBoard {
-  Piece *board;
-  Piece *capturedPieces;
-} ChessBoard;
+typedef struct chess_board {
+  chess_piece *board;
+  chess_piece *capturedPieces;
+} chess_board;
 
-ChessBoard *Chess_BoardInitialize();
+chess_board *chess_board_initialize();
 
-typedef struct ChessGame {
-  ChessBoard initialState;
-  ChessBoard state;
+typedef struct chess_game {
+  chess_board initialState;
+  chess_board state;
   void *moves;
-} ChessGame;
+} chess_game;
 
-ChessGame *Chess_GameInitialize();
-
-int teste(void);
+chess_game *Chess_game_initialize();
