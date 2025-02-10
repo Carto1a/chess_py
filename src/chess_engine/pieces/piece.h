@@ -9,7 +9,7 @@ typedef enum chess_piece_type {
   CHESS_KNIGHT,
   CHESS_PAWN
 } chess_piece_type;
-typedef enum chess_piece_owner { OWNER_BLACK, OWNER_WHITE } chess_piece_owner;
+typedef enum chess_piece_owner { CHESS_OWNER_BLACK, CHESS_OWNER_WHITE } chess_piece_owner;
 
 typedef struct chess_piece {
   chess_piece_type type;
@@ -24,7 +24,7 @@ typedef struct chess_pawn {
 } chess_pawn;
 
 chess_pawn chess_pawn_initialize(int x, int y, chess_piece_owner owner);
-MoveList chess_pawn_get_moves(chess_pawn piece, chess_piece *board);
+chess_list_move chess_pawn_get_moves(chess_pawn piece, chess_piece *board);
 int chess_pawn_move(chess_piece piece, int x, int y);
 
 typedef struct chess_bishop {
@@ -32,5 +32,5 @@ typedef struct chess_bishop {
 } chess_bishop;
 
 chess_pawn chess_bishop_initialize();
-Move chess_bishop_get_moves();
+chess_move chess_bishop_get_moves();
 void chess_bishop_move();
