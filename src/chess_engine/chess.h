@@ -6,15 +6,17 @@
 
 typedef struct chess_board {
   chess_piece *board;
-  chess_piece *capturedPieces;
 } chess_board;
 
 chess_board *chess_board_initialize();
 
 typedef struct chess_game {
   chess_board initialState;
+  chess_piece *capturedPieces;
   chess_board state;
   void *moves;
 } chess_game;
 
-chess_game *Chess_game_initialize();
+chess_game *chess_game_initialize();
+void chess_assign_move(Move *move, chess_game *game);
+

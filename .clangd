@@ -11,12 +11,3 @@ CompileFlags:
 #     - -I./include             # Diretório padrão de includes no projeto
 #     - -I./src                 # Inclui diretórios de código-fonte, se necessário
 
-CompileCommands:
-  Directory: ./build
-
-Diagnostics:
-  ClangTidy: false
-
-Index:
-  Background: true
-

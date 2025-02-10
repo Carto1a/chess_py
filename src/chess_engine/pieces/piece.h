@@ -24,7 +24,7 @@ typedef struct chess_pawn {
 } chess_pawn;
 
 chess_pawn chess_pawn_initialize(int x, int y, chess_piece_owner owner);
-Move chess_pawn_get_moves(chess_pawn piece);
+MoveList chess_pawn_get_moves(chess_pawn piece, chess_piece *board);
 int chess_pawn_move(chess_piece piece, int x, int y);
 
 typedef struct chess_bishop {
