@@ -1,22 +1,22 @@
-#include "pieces/piece.h"
+typedef struct chess_piece {
+  chess_piece_type type;
+  chess_piece_owner owner;
+  int captured;
+  int x;
+  int y;
+} chess_piece;
 
-// NOTE: board tem que ser uma struct por si so, tenho que sabe a largura e
-// altura do tabuleiro, se não for uma tabuleiro convencional, não sei oque eu
-// vou fazer
+// colocar em pawn.h
+typedef struct chess_pawn {
+  chess_piece piece;
+  chess_list_move (*get_moves)(struct chess_pawn, chess_piece);
+  chess_move (*get_move)(struct chess_pawn, chess_piece, int, int);
+  int (*move)(chess_pawn, chess_game, int, int);
+} chess_pawn;
 
-typedef struct chess_board {
-  chess_piece *board;
-} chess_board;
+chess_pawn chess_pawn_initialize(int x, int y, chess_piece_owner owner);
+chess_list_move *chess_pawn_get_moves(chess_pawn pawn, chess_piece *board);
+chess_move chess_pawn_get_move(chess_pawn pawn, chess_piece *board, int x, int y);
 
-chess_board *chess_board_initialize();
-
-typedef struct chess_game {
-  chess_board initial_state;
-  chess_piece *captured_pieces;
-  chess_board state;
-  void *moves;
-} chess_game;
-
-chess_game *chess_game_initialize();
-void chess_assign_move(chess_move *move, chess_game *game);
-
+int chess_pawn_move(chess_piece piece, chess_game board, int x, int y);
+//

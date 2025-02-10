@@ -8,7 +8,7 @@ typedef enum chess_move_type {
 } chess_move_type;
 
 typedef enum chess_move_piece {
-  PAWN_MOVE = 'p'
+  CHESS_PAWN_MOVE = 'p'
 } chess_move_piece;
 
 typedef struct chess_move {
