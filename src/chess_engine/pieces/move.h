@@ -1,31 +1,31 @@
-typedef enum MoveType {
-  MOVE,
-  CAPTURE,
-  CASTLING,
-  PROMOTE,
-  ENPASSANT,
-  CHECK
-} MoveType;
+typedef enum chess_move_type {
+  CHESS_MOVE_MOVEMENT,
+  CHESS_MOVE_CAPTURE,
+  CHESS_MOVE_CASTLING,
+  CHESS_MOVE_PROMOTE,
+  CHESS_MOVE_ENPASSANT,
+  CHESS_MOVE_CHECK
+} chess_move_type;
 
-typedef enum MovePiece {
+typedef enum chess_move_piece {
   PAWN_MOVE = 'p'
-} MovePiece;
+} chess_move_piece;
 
-typedef struct Move {
-  MovePiece piece;
-  MoveType type;
+typedef struct chess_move {
+  chess_move_piece piece;
+  chess_move_type type;
   int x;
   int y;
-} Move;
+} chess_move;
 
-Move *Chess_InitMove(MovePiece piece, MoveType type, int x, int y);
+chess_move *chess_move_initalize(chess_move_piece piece, chess_move_type type, int x, int y);
 
-typedef struct MoveList {
-  Move **moves;
+typedef struct chess_list_move {
+  chess_move **moves;
   int length;
   int size;
-} MoveList;
+} chess_list_move;
 
-MoveList *Chess_InitMoveList(int size);
-void Chess_MoveList_Add(MoveList *list, Move *move);
-void Chess_MoveList_Remove(MoveList *list, int index);
+chess_list_move *chess_list_move_initialize(int size);
+void chess_list_move_add(chess_list_move *list, chess_move *move);
+void chess_list_move_remove(chess_list_move *list, int index);
