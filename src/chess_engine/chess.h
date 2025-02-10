@@ -11,12 +11,12 @@ typedef struct chess_board {
 chess_board *chess_board_initialize();
 
 typedef struct chess_game {
-  chess_board initialState;
-  chess_piece *capturedPieces;
+  chess_board initial_state;
+  chess_piece *captured_pieces;
   chess_board state;
   void *moves;
 } chess_game;
 
 chess_game *chess_game_initialize();
-void chess_assign_move(Move *move, chess_game *game);
+void chess_assign_move(chess_move *move, chess_game *game);
 
