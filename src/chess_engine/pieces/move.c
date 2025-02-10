@@ -1,8 +1,8 @@
 #include "move.h"
 #include <stdlib.h>
 
-Move *Chess_InitMove(MovePiece piece, MoveType type, int x, int y) {
-  Move *move = malloc(sizeof(Move));
+chess_move *chess_move_initalize(chess_move_piece piece, chess_move_type type, int x, int y) {
+  chess_move *move = malloc(sizeof(chess_move));
 
   move->y = y;
   move->x = x;
@@ -12,10 +12,10 @@ Move *Chess_InitMove(MovePiece piece, MoveType type, int x, int y) {
   return move;
 }
 
-MoveList *Chess_InitMoveList(int size) {
-  MoveList *list = malloc(sizeof(MoveList));
+chess_list_move *chess_list_move_initialize(int size) {
+  chess_list_move *list = malloc(sizeof(chess_list_move));
 
-  Move **moveslist = malloc(sizeof(Move*) * size);
+  chess_move **moveslist = malloc(sizeof(chess_move*) * size);
 
   list->size = size;
   list->length = 0;
@@ -24,7 +24,7 @@ MoveList *Chess_InitMoveList(int size) {
   return list;
 }
 
-void Chess_MoveList_Add(MoveList *list, Move *move) {
+void chess_list_move_add(chess_list_move *list, chess_move *move) {
   if (list->length >= list->size) {
     // TODO: alocar outra lista
   
@@ -32,4 +32,5 @@ void Chess_MoveList_Add(MoveList *list, Move *move) {
 
   list->moves[list->length] = move;
 }
-void Chess_MoveList_Remove(MoveList *list, int index);
+
+void chess_list_move_remove(chess_list_move *list, int index);
