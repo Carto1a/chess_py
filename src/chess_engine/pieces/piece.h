@@ -1,4 +1,12 @@
-#include "move.h"
+#ifndef CHESS_PIECE_H
+#define CHESS_PIECE_H
+
+#include "../move/list_move.h"
+
+typedef enum chess_piece_owner {
+  CHESS_OWNER_BLACK,
+  CHESS_OWNER_WHITE
+} chess_piece_owner;
 
 typedef enum chess_piece_type {
   CHESS_PIECE_NONE,
@@ -9,7 +17,8 @@ typedef enum chess_piece_type {
   CHESS_KNIGHT,
   CHESS_PAWN
 } chess_piece_type;
-typedef enum chess_piece_owner { CHESS_OWNER_BLACK, CHESS_OWNER_WHITE } chess_piece_owner;
+
+typedef struct chess_game chess_game;
 
 typedef struct chess_piece {
   chess_piece_type type;
@@ -17,20 +26,13 @@ typedef struct chess_piece {
   int captured;
   int x;
   int y;
+
+  chess_game *game;
+
+  chess_list_move (*get_moves)(struct chess_piece);
+  chess_move (*get_move)(struct chess_piece, int, int);
+  int (*move_to)(struct chess_piece, int, int);
+  int (*move_from_move)(struct chess_piece, chess_move);
 } chess_piece;
 
-typedef struct chess_pawn {
-  chess_piece piece;
-} chess_pawn;
-
-chess_pawn chess_pawn_initialize(int x, int y, chess_piece_owner owner);
-chess_list_move *chess_pawn_get_moves(chess_pawn piece, chess_piece *board);
-int chess_pawn_move(chess_piece piece, chess_game board, int x, int y);
-
-typedef struct chess_bishop {
-  chess_piece piece;
-} chess_bishop;
-
-chess_pawn chess_bishop_initialize();
-chess_move chess_bishop_get_moves();
-void chess_bishop_move();
+#endif // !CHESS_PIECE_H
