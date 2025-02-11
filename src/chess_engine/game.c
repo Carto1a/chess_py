@@ -12,8 +12,8 @@ chess_game *chess_game_intialize(chess_board *initial_state) {
 
   chess_game *game = malloc(sizeof(chess_game));
 
-  game->initial_state = *chess_board_duplicate(initial_state);
-  game->atual_state = *chess_board_duplicate(initial_state);
+  game->initial_state = chess_board_duplicate(initial_state);
+  game->atual_state = chess_board_duplicate(initial_state);
 
   // TODO: fazer uma lista dinâmica
   game->captured_pieces = NULL;
