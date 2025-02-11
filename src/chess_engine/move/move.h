@@ -22,7 +22,7 @@ typedef struct chess_move {
   int y;
 } chess_move;
 
-chess_move *chess_move_initalize(chess_piece *piece, chess_move_type type,
+chess_move *chess_move_initalize(chess_move_type type, chess_piece *piece,
                                  int x, int y);
 
 #endif // !CHESS_MOVE_H
