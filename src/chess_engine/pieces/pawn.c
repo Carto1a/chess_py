@@ -1,21 +1,52 @@
-#include "piece.h"
+#include "pawn.h"
+#include "../chess.h"
+#include <stdlib.h>
+#include <string.h>
 
-chess_pawn chess_pawn_initialize(int x, int y, chess_piece_owner owner) {
+chess_pawn *chess_pawn_initialize(chess_piece_owner owner, int x, int y) {
+  chess_pawn *pawn = malloc(sizeof(chess_pawn));
 
+  pawn->type = CHESS_PAWN;
+  pawn->owner = owner;
+  pawn->captured = false;
+  // NOTE: check if off bound?
+  pawn->x = x;
+  pawn->y = y;
+  pawn->game = NULL;
+
+  pawn->get_moves = chess_pawn_get_moves;
+  pawn->get_move = chess_pawn_get_move;
+  pawn->move_to = chess_pawn_move_to;
+  pawn->move_from_move = chess_pawn_move_from_move;
+
+  return pawn;
 }
 
-chess_list_move *chess_pawn_get_moves(chess_pawn pawn, chess_piece *board) {
+int chess_pawn_dispose(chess_pawn *pawn) {
+  if (!pawn) {
+    chess_set_error("Attempt to deallocate a NULL pawn");
+    return CHESS_ERROR;
+  }
+
+  free(pawn);
+
+  return CHESS_SUCESS;
+}
+
+chess_list_move *chess_pawn_get_moves(chess_pawn *pawn) {
   chess_list_move *moves = chess_list_move_initialize(5);
 
-  chess_move *move = chess_move_initalize(CHESS_PAWN_MOVE, CHESS_MOVE_MOVEMENT, pawn.piece.x + 1, pawn.piece.y + 2);
+  /* chess_move *move = chess_move_initalize(CHESS_PAWN_MOVE,
+   * CHESS_MOVE_MOVEMENT, */
+  /*                                         pawn.piece.x + 1, pawn.piece.y +
+   * 2); */
 
-  chess_list_move_add(moves, move);
+  chess_list_move_append(moves, move);
 
   return moves;
 }
 
-int chess_pawn_move(chess_piece piece, int x, int y) {
-  
-}
+chess_move chess_pawn_get_move(chess_pawn *pawn, int x, int y);
 
-
+int chess_pawn_move_to(chess_piece *piece, int x, int y);
+int chess_pawn_move_from_move(chess_piece *piece, chess_move move);
