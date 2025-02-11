@@ -51,7 +51,14 @@ int chess_list_move_append(chess_list_move *list, chess_move *move) {
 }
 
 int chess_list_move_dispose(chess_list_move *list) {
-  free(list->moves);
+  if (!list) {
+    chess_set_error("Attempt to deallocate a NULL move list");
+    return CHESS_ERROR;
+  }
+
+  if (list->moves)
+    free(list->moves);
+
   free(list);
 
   return CHESS_SUCESS;
