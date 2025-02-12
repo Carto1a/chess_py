@@ -11,7 +11,9 @@ chess_board *chess_board_initialize() {
     return NULL;
   }
 
-  chess_piece **pieces = malloc(sizeof(chess_piece *) * 8 * 8);
+  const int board_width = 8;
+  chess_piece **pieces =
+      malloc(sizeof(chess_piece *) * board_width * board_width);
   if (!pieces) {
     chess_set_error("Memory allocation failed for pieces");
     return NULL;
@@ -22,10 +24,12 @@ chess_board *chess_board_initialize() {
   return board;
 }
 
+// NOTE: sindo que da para melhorar
 chess_board *chess_board_initialize_from_file(char *string_board) {
   chess_board *board = chess_board_initialize();
 
-  char *piece_token_buffer = malloc(sizeof(char) * 3);
+  const int buffer_size = 3;
+  char *piece_token_buffer = malloc(sizeof(char) * buffer_size);
   if (!piece_token_buffer) {
     chess_set_error("Memory allocation failed for piece_token");
     return NULL;
@@ -33,18 +37,14 @@ chess_board *chess_board_initialize_from_file(char *string_board) {
 
   int x = 0;
   int y = 0;
-  int string_board_len = strlen(string_board);
-
-  // pb pb pb pb pb pb pb pb
-  // pb pb pb pb pb pb pb pb
-  // 00 00 00 00 00 00 00 00
-  // 00 00 00 00 00 00 00 00
-  // 00 00 00 00 00 00 00 00
-  // 00 00 00 00 00 00 00 00
-  // pw pw pw pw pw pw pw pw
-  // pw pw pw pw pw pw pw pw
+  const int string_board_len = strlen(string_board);
 
   for (int i = 0; string_board_len < i; i++) {
+    if (x > 8 || y > 8) {
+      chess_set_error("Parse failed: offbounds");
+      goto chess_board_initialize_from_file_failed;
+    }
+
     if (strncpy_s(piece_token_buffer, 3, &string_board[i], 2)) {
       chess_set_error("Parse failed: Copy operation failed for piece_token");
       goto chess_board_initialize_from_file_failed;
@@ -63,6 +63,12 @@ chess_board *chess_board_initialize_from_file(char *string_board) {
       continue;
     }
 
+    if (piece_token_buffer[0] == '\n') {
+      x = 0;
+      y += 1;
+      continue;
+    }
+
     if (piece_token_buffer[0] == '0') {
       if (piece_token_buffer[1] == '0') {
         i++;
@@ -73,6 +79,7 @@ chess_board *chess_board_initialize_from_file(char *string_board) {
           goto chess_board_initialize_from_file_failed;
         }
 
+        x += 1;
         continue;
       }
 
@@ -99,6 +106,8 @@ chess_board *chess_board_initialize_from_file(char *string_board) {
     }
 
     chess_piece *piece = initialize_func(piece_owner, x, y);
+    i++;
+    x += 1;
   }
 
   free(piece_token_buffer);
@@ -123,7 +132,20 @@ int chess_board_dispose(chess_board *board) {
   return CHESS_SUCESS;
 }
 
-chess_board *chess_board_duplicate(const chess_board *board);
+chess_board *chess_board_duplicate(const chess_board *src_board) {
+  if (!src_board) {
+    chess_set_error("Attempt to duplicate a NULL board");
+    return NULL;
+  }
+
+  chess_board *dest_board = chess_board_initialize();
+
+  const int board_width = 8;
+  memcpy(dest_board->pieces, src_board->pieces,
+         sizeof(chess_piece *) * board_width * board_width);
+
+  return dest_board;
+}
 
 chess_piece *chess_board_get_piece(const chess_board *board, unsigned int x,
                                    unsigned int y) {

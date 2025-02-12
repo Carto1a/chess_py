@@ -11,7 +11,7 @@ chess_board *chess_board_initialize();
 chess_board *chess_board_initialize_from_file(char *string_board);
 int chess_board_dispose(chess_board *board);
 
-chess_board *chess_board_duplicate(const chess_board *board);
+chess_board *chess_board_duplicate(const chess_board *src_board);
 chess_piece *chess_board_get_piece(const chess_board *board, unsigned int x,
                                    unsigned int y);
 chess_piece *chess_board_get_piece_c_char(const chess_board *board, char c_x,
