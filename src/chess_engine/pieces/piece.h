@@ -4,6 +4,7 @@
 #include "../move/list_move.h"
 
 typedef enum chess_piece_owner {
+  CHESS_OWNER_NONE,
   CHESS_OWNER_BLACK,
   CHESS_OWNER_WHITE
 } chess_piece_owner;
