@@ -19,6 +19,8 @@ chess_pawn *chess_pawn_initialize(chess_piece_owner owner, int x, int y) {
   pawn->move_to = chess_pawn_move_to;
   pawn->move_from_move = chess_pawn_move_from_move;
 
+  pawn->moved = false;
+
   return pawn;
 }
 
@@ -37,7 +39,9 @@ chess_list_move *chess_pawn_get_moves(chess_pawn *pawn) {
   return moves;
 }
 
-chess_move chess_pawn_get_move(chess_pawn *pawn, int x, int y);
+chess_move chess_pawn_get_move(chess_pawn *pawn, int x, int y) {
+  pawn->moved = true;
+}
 
 int chess_pawn_move_to(chess_pawn *piece, int x, int y);
 int chess_pawn_move_from_move(chess_pawn *piece, chess_move move);

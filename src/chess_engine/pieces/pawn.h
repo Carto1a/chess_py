@@ -17,6 +17,8 @@ typedef struct chess_pawn {
 
   int (*move_to)(struct chess_pawn *, int, int);
   int (*move_from_move)(struct chess_pawn *, chess_move);
+
+  int moved;
 } chess_pawn;
 
 chess_pawn *chess_pawn_initialize(chess_piece_owner owner, int x, int y);
