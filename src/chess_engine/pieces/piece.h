@@ -30,10 +30,10 @@ typedef struct chess_piece {
 
   chess_game *game;
 
-  chess_list_move (*get_moves)(struct chess_piece);
-  chess_move (*get_move)(struct chess_piece, int, int);
-  int (*move_to)(struct chess_piece, int, int);
-  int (*move_from_move)(struct chess_piece, chess_move);
+  chess_list_move (*get_moves)(struct chess_piece *);
+  chess_move (*get_move)(struct chess_piece *, int, int);
+  int (*move_to)(struct chess_piece *, int, int);
+  int (*move_from_move)(struct chess_piece *, chess_move);
 } chess_piece;
 
 #endif // !CHESS_PIECE_H

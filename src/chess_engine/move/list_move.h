@@ -13,7 +13,7 @@ typedef struct chess_list_move {
 } chess_list_move;
 
 chess_list_move *chess_list_move_initialize(unsigned int size);
-int chess_list_move_dispose(chess_list_move *list);
+void chess_list_move_dispose(chess_list_move *list);
 
 int chess_list_move_append(chess_list_move *list, chess_move *move);
 

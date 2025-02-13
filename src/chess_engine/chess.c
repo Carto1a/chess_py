@@ -12,4 +12,5 @@ void chess_set_error(const char *fmt, ...) {
   vsnprintf(error_message, sizeof(error_message), fmt, args);
   va_end(args);
 }
+
 const char *chess_get_error() { return error_message; }

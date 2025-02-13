@@ -22,16 +22,7 @@ chess_pawn *chess_pawn_initialize(chess_piece_owner owner, int x, int y) {
   return pawn;
 }
 
-int chess_pawn_dispose(chess_pawn *pawn) {
-  if (!pawn) {
-    chess_set_error("Attempt to deallocate a NULL pawn");
-    return CHESS_ERROR;
-  }
-
-  free(pawn);
-
-  return CHESS_SUCESS;
-}
+void chess_pawn_dispose(chess_pawn *pawn) { free(pawn); }
 
 chess_list_move *chess_pawn_get_moves(chess_pawn *pawn) {
   chess_list_move *moves = chess_list_move_initialize(5);
@@ -48,5 +39,5 @@ chess_list_move *chess_pawn_get_moves(chess_pawn *pawn) {
 
 chess_move chess_pawn_get_move(chess_pawn *pawn, int x, int y);
 
-int chess_pawn_move_to(chess_piece *piece, int x, int y);
-int chess_pawn_move_from_move(chess_piece *piece, chess_move move);
+int chess_pawn_move_to(chess_pawn *piece, int x, int y);
+int chess_pawn_move_from_move(chess_pawn *piece, chess_move move);

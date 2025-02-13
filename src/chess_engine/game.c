@@ -22,14 +22,10 @@ chess_game *chess_game_intialize(chess_board *initial_state) {
   return game;
 }
 
-int chess_game_dispose(chess_game *game) {
-  if (!game) {
-    chess_set_error("Attempt to deallocate a NULL game");
-    return CHESS_ERROR;
-  }
-
-  // TODO: verificar se NULL
-  chess_board_dispose(&game->initial_state);
-
-  return CHESS_SUCESS;
+void chess_game_dispose(chess_game *game) {
+  chess_board_dispose(game->initial_state);
+  chess_board_dispose(game->atual_state);
+  chess_list_move_dispose(game->moves);
+  free(game->captured_pieces);
+  free(game);
 }

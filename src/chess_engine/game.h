@@ -13,6 +13,6 @@ typedef struct chess_game {
 } chess_game;
 
 chess_game *chess_game_intialize(chess_board *initial_state);
-int chess_game_dispose(chess_game *game);
+void chess_game_dispose(chess_game *game);
 
 #endif // !CHESS_GAME_H

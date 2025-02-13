@@ -18,13 +18,4 @@ chess_move *chess_move_initalize(chess_move_type type, chess_piece *piece,
   return move;
 }
 
-int chess_move_dispose(chess_move *move) {
-  if (!move) {
-    chess_set_error("Attempt to deallocate a NULL move");
-    return CHESS_ERROR;
-  }
-
-  free(move);
-
-  return CHESS_SUCESS;
-}
+void chess_move_dispose(chess_move *move) { free(move); }

@@ -20,7 +20,7 @@ typedef struct chess_pawn {
 } chess_pawn;
 
 chess_pawn *chess_pawn_initialize(chess_piece_owner owner, int x, int y);
-int chess_pawn_dispose(chess_pawn *pawn);
+void chess_pawn_dispose(chess_pawn *pawn);
 
 chess_list_move *chess_pawn_get_moves(chess_pawn *pawn);
 chess_move chess_pawn_get_move(chess_pawn *pawn, int x, int y);

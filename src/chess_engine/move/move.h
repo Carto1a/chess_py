@@ -25,6 +25,6 @@ typedef struct chess_move {
 chess_move *chess_move_initalize(chess_move_type type, chess_piece *piece,
                                  int x, int y);
 
-int chess_move_dispose(chess_move *move);
+void chess_move_dispose(chess_move *move);
 
 #endif // !CHESS_MOVE_H

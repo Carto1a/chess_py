@@ -25,7 +25,7 @@ chess_board *chess_board_initialize() {
 }
 
 // NOTE: sindo que da para melhorar
-chess_board *chess_board_initialize_from_file(char *string_board) {
+chess_board *chess_board_initialize_from_string(char *string_board) {
   chess_board *board = chess_board_initialize();
 
   const int buffer_size = 3;
@@ -120,16 +120,9 @@ chess_board_initialize_from_file_failed:
   return NULL;
 }
 
-int chess_board_dispose(chess_board *board) {
-  if (!board) {
-    chess_set_error("Attempt to deallocate a NULL board");
-    return CHESS_ERROR;
-  }
-
+void chess_board_dispose(chess_board *board) {
   free(board->pieces);
   free(board);
-
-  return CHESS_SUCESS;
 }
 
 chess_board *chess_board_duplicate(const chess_board *src_board) {
