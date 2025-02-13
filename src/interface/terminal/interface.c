@@ -1,5 +1,6 @@
 #include "../../interface.h"
 #include "../../chess_engine/chess.h"
+#include "../../chess_engine/pieces/piece.h"
 #include "../common/common.h"
 
 #include <stdbool.h>
@@ -17,17 +18,17 @@ void print_game_input();
 
 char get_piece_char(chess_piece_type piece) {
   switch (piece) {
-  case KING:
+  case CHESS_KING:
     return 'K';
-  case QUEEN:
+  case CHESS_QUEEN:
     return 'Q';
-  case ROOK:
+  case CHESS_ROOK:
     return 'R';
-  case BISHOP:
+  case CHESS_BISHOP:
     return 'B';
-  case KNIGHT:
+  case CHESS_KNIGHT:
     return 'N';
-  case PAWN:
+  case CHESS_PAWN:
     return 'P';
   default:
     return ' ';

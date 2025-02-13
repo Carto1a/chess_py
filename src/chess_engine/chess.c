@@ -1,7 +1,6 @@
 #include "./chess.h"
 #include <stdarg.h>
 #include <stdio.h>
-#include <vadefs.h>
 
 static char error_message[512] = {0};
 

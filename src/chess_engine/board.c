@@ -45,7 +45,7 @@ chess_board *chess_board_initialize_from_string(char *string_board) {
       goto chess_board_initialize_from_file_failed;
     }
 
-    if (strncpy_s(piece_token_buffer, 3, &string_board[i], 2)) {
+    if (strncpy(piece_token_buffer, &string_board[i], 2)) {
       chess_set_error("Parse failed: Copy operation failed for piece_token");
       goto chess_board_initialize_from_file_failed;
     }
