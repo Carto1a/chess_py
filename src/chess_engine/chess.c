@@ -2,6 +2,10 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#ifdef WIN32
+#include <vadefs.h>
+#endif
+
 static char error_message[512] = {0};
 
 void chess_set_error(const char *fmt, ...) {
