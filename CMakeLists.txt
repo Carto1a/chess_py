@@ -31,5 +31,5 @@ add_subdirectory("src/interface/common")
 add_subdirectory("src/interface/terminal")
 add_subdirectory("src/chess_engine")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE common chess_terminal chess_engine)
+target_link_libraries(${PROJECT_NAME} PRIVATE chess_ui_terminal chess_engine)
 

@@ -7,6 +7,7 @@ file(GLOB_RECURSE HEADERS "./*.h")
 add_library(chess_ui_terminal SHARED ${SOURCES} ${HEADERS})
 
 target_include_directories(chess_ui_terminal PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(chess_ui_terminal PRIVATE common)
 
 set_target_properties(chess_ui_terminal PROPERTIES
     VERSION ${PROJECT_VERSION}

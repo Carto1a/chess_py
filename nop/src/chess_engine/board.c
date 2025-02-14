@@ -158,3 +158,13 @@ chess_piece *chess_board_get_piece(const chess_board *board, unsigned int x,
 
   return board->pieces[x + (y * board_width)];
 }
+
+chess_piece *chess_board_get_piece_c_char(const chess_board *board, char c_x,
+                                          char c_y);
+chess_piece *chess_board_get_piece_c_int(const chess_board *board,
+                                         unsigned int c_x, unsigned int c_y);
+
+int chess_board_set_piece(const chess_board *board, const chess_piece *piece,
+                          unsigned int x, unsigned int y) {
+  return 0;
+}
