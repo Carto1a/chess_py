@@ -1,6 +1,6 @@
 #include "interface.h"
 #include <stdio.h>
-#include "../../chess_engine/pieces/piece.h"
+#include "chess/pieces/piece.h"
 #include "common.h"
 #include <stdbool.h>
 #include <stdio.h>
@@ -56,7 +56,6 @@ void print_game_input() { printf("input: "); }
 
 int interface_initialize(void) {
   const int board_width = 8;
-  const int board_heigth = 8;
 
   while (true) {
     CLEAR();
@@ -65,7 +64,7 @@ int interface_initialize(void) {
     if (print_board(NULL) == FAILURE)
       break;
 
-    MOVE_CURSOR(0, board_heigth + 2);
+    MOVE_CURSOR(0, board_width + 2);
     print_game_input();
 
     sleep(500);

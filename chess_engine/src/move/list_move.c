@@ -1,10 +1,10 @@
-#include "list_move.h"
-#include "../chess.h"
+#include "chess/move/list_move.h"
+#include "chess/chess.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
-chess_list_move *chess_list_move_initialize(unsigned int size) {
+chess_list_move *chess_list_move_initialize(int size) {
   if (size < 1) {
     chess_set_error("Invalid size provided. Size must be greater than zero");
     return NULL;

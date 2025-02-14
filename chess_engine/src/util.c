@@ -1,5 +1,5 @@
-#include "util.h"
-#include "pieces/pawn.h"
+#include "chess/util.h"
+#include "chess/pieces/pawn.h"
 #include <string.h>
 
 chess_piece_owner chess_piece_owner_from_char(char owner_char) {

@@ -1,4 +1,5 @@
-#include "./chess.h"
+#include "chess/chess.h"
+#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 
@@ -12,7 +13,8 @@ void chess_set_error(const char *fmt, ...) {
   va_list args;
   va_start(args, fmt);
   // NOTE: tenho que ver melhor oque isso faz.
-  vsnprintf(error_message, sizeof(error_message), fmt, args);
+  int write_size = vsnprintf(error_message, sizeof(error_message), fmt, args);
+  assert(expr)
   va_end(args);
 }
 

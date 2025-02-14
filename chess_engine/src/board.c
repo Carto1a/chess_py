@@ -1,6 +1,6 @@
-#include "board.h"
-#include "chess.h"
-#include "util.h"
+#include "chess/board.h"
+#include "chess/chess.h"
+#include "chess/util.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -13,7 +13,7 @@ chess_board *chess_board_initialize() {
 
   const int board_width = 8;
   chess_piece **pieces =
-      malloc(sizeof(chess_piece *) * board_width * board_width);
+      (chess_piece **)malloc(sizeof(chess_piece *) * board_width * board_width);
   if (!pieces) {
     chess_set_error("Memory allocation failed for pieces");
     return NULL;
@@ -37,9 +37,9 @@ chess_board *chess_board_initialize_from_string(char *string_board) {
 
   int x = 0;
   int y = 0;
-  const int string_board_len = strlen(string_board);
+  const unsigned long string_board_len = strlen(string_board);
 
-  for (int i = 0; string_board_len < i; i++) {
+  for (unsigned int i = 0; string_board_len < i; i++) {
     if (x > 8 || y > 8) {
       chess_set_error("Parse failed: offbounds");
       goto chess_board_initialize_from_file_failed;
@@ -121,7 +121,7 @@ chess_board_initialize_from_file_failed:
 }
 
 void chess_board_dispose(chess_board *board) {
-  free(board->pieces);
+  free((chess_piece *)board->pieces);
   free(board);
 }
 
@@ -134,7 +134,7 @@ chess_board *chess_board_duplicate(const chess_board *src_board) {
   chess_board *dest_board = chess_board_initialize();
 
   const int board_width = 8;
-  memcpy(dest_board->pieces, src_board->pieces,
+  memcpy((chess_piece *)dest_board->pieces, (chess_piece *)src_board->pieces,
          sizeof(chess_piece *) * board_width * board_width);
 
   return dest_board;

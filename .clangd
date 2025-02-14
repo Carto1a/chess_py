@@ -18,3 +18,4 @@ Diagnostics:
       - performance-*
     Remove:
       - modernize-use-nullptr
+      - bugprone-easily-swappable-parameters
