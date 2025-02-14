@@ -24,8 +24,9 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 add_executable(${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/main.c")
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/interface/include")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/common/include")
 
-# add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/common")
+add_subdirectory("common")
 add_subdirectory("interface")
 # add_subdirectory("src/chess_engine")
 

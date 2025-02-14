@@ -3,6 +3,8 @@ CompileFlags:
     - -Wall
     - -Wextra
     - -pedantic
+    - -x
+    - c
     - -std=c23
     - -DDEBUG
 
@@ -14,4 +16,5 @@ Diagnostics:
       - cert-*
       - modernize-*
       - performance-*
-
+    Remove:
+      - modernize-use-nullptr
