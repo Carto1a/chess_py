@@ -1,20 +1,35 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 
 set(PROJECT_NAME chess)
+project(${PROJECT_NAME} VERSION 0.1.0 LANGUAGES C)
 
-project(${PROJECT_NAME})
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    add_compile_options(/Wall)
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    add_compile_options(-Wall)
-    set(CMAKE_CXX_FLAGS_DEBUG "-g")
+if(NOT CMAKE_BUILD_TYPE)
+    set(default_build_type "Debug")
+    message(STATUS "Set the build type to `${default_build_type}` as none was specified.")
+    set(CMAKE_BUILD_TYPE ${default_build_type} CACHE STRING "Choose the build type." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+    "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
+message(STATUS "${PROJECT_NAME} Build Type: ${CMAKE_BUILD_TYPE}")
+
+message(STATUS "${PROJECT_NAME} version: ${PROJECT_VERSION}")
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 add_executable(${PROJECT_NAME} "./src/main.c")
+
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4)
+elseif(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)
+endif()
 
 add_subdirectory("src/interface/common")
 add_subdirectory("src/interface/terminal")
 add_subdirectory("src/chess_engine")
 
-target_link_libraries(${PROJECT_NAME} PUBLIC common chess_terminal chess_engine)
+target_link_libraries(${PROJECT_NAME} PRIVATE common chess_terminal chess_engine)
+
