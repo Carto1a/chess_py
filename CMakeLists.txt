@@ -19,17 +19,25 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-add_executable(${PROJECT_NAME} "./src/main.c")
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
+add_executable(${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/main.c")
+
+# target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/interface/include")
+
+# add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/common")
+# add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/interface")
+# add_subdirectory("src/chess_engine")
+
+set(CMAKE_C_FLAGS_DEBUG "-g")
+set(CMAKE_EXE_LINKER_FLAGS_DEBUG "-g")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -g")
+set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -g")
 if(MSVC)
-    target_compile_options(${PROJECT_NAME} PRIVATE /W4)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4 /DEBUG)
 elseif(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -g)
 endif()
 
-add_subdirectory("src/interface/common")
-add_subdirectory("src/interface/terminal")
-add_subdirectory("src/chess_engine")
-
-target_link_libraries(${PROJECT_NAME} PRIVATE chess_ui_terminal chess_engine)
-
+# target_link_libraries(${PROJECT_NAME} PUBLIC chess_ui_terminal)
+# target_link_libraries(${PROJECT_NAME} PRIVATE chess_ui_terminal)
