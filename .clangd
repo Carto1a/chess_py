@@ -1,13 +1,17 @@
-# TODO: aprender a configurar o clangd
 CompileFlags:
   Add:
-    # - -I/path/to/include      # Adiciona diretórios de includes (se necessário)
+    - -Wall
+    - -Wextra
+    - -pedantic
     - -std=c23
     - -DDEBUG
 
-# FallbackFlags:
-#   Add:
-#     - -std=c11                # Padrão do C se não encontrar configurações no compile_commands.json
-#     - -I./include             # Diretório padrão de includes no projeto
-#     - -I./src                 # Inclui diretórios de código-fonte, se necessário
+Diagnostics:
+  UnusedIncludes: Strict
+  ClangTidy:
+    Add:
+      - bugprone-*
+      - cert-*
+      - modernize-*
+      - performance-*
 
